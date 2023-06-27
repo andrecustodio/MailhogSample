@@ -1,0 +1,21 @@
+version: "3.4"
+
+services:
+  mailhog_server:
+    container_name: mailhog_server
+    image: mailhog/mailhog:latest
+    restart: always
+    tty: true
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+
+  api:
+    build:
+      context: .
+      dockerfile: MailhogSample.API\Dockerfile
+    container_name: api
+    ports:
+      - 7252:80
+    depends_on:
+      - mailhog_server
